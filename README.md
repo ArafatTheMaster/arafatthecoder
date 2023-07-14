@@ -1,2 +1,2 @@
 # arafatthecoder
-https://github.com/ArafatTheMaster/arafatthecoder
+Your site is live at https://arafatthemaster.github.io/arafatthecoder/
