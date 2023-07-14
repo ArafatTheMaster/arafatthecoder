@@ -11,153 +11,125 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9"></script>
 
+	<script>
+		function displaySuccessPopup() {
+			Swal.fire({
+				title: "UNLOCKED",
+				text: "Premium Subscription is active!",
+				icon: "success",
+				confirmButtonText: "Premium Service"
+			}).then(function() {
+				// Open the desired page after the alert is closed
+				window.location.href = "another-page/index.html";
+			});
+		}
 
+		function togglePasswordVisibility() {
+			var passwordInput = document.getElementById("password");
+			var checkbox = document.getElementById("showPasswordCheckbox");
+			var label = document.getElementById("showPasswordLabel");
 
+			if (checkbox.checked) {
+				passwordInput.type = "text";
+				label.textContent = "Hide Password";
+			} else {
+				passwordInput.type = "password";
+				label.textContent = "Show Password";
+			}
+		}
 
-  <script>
-    function displaySuccessPopup() {
-      Swal.fire({
-        title: "UNLOCKED",
-        text: "Premium Subscription is active!",
-        icon: "success",
-        confirmButtonText: "Premium Servise"
-      }).then(function() {
-        // Submit the form after the popup is closed
-        document.forms[0].submit();
-      });
-    }
+		function validateForm(event) {
+			event.preventDefault(); // Prevent the default form submission
 
-    function togglePasswordVisibility() {
-      var passwordInput = document.getElementById("password");
-      var checkbox = document.getElementById("showPasswordCheckbox");
-      var label = document.getElementById("showPasswordLabel");
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
 
-      if (checkbox.checked) {
-        passwordInput.type = "text";
-        label.textContent = "Hide Password";
-      } else {
-        passwordInput.type = "password";
-        label.textContent = "Show Password";
-      }
-    }
+			// Define the valid username and password combinations
+			var validCredentials = [
+				{ username: "admin", password: "Web&CEO@1234" },
+				{ username: "user1", password: "111" },
+				{ username: "user2", password: "222" },
+				// Add more combinations here...
+			];
 
-    function validateForm(event) {
-      event.preventDefault(); // Prevent the default form submission
+			var isUsernameValid = false;
+			var isPasswordValid = false;
 
-      var username = document.getElementById("username").value;
-      var password = document.getElementById("password").value;
+			// Check if the entered credentials match any valid combination
+			for (var i = 0; i < validCredentials.length; i++) {
+				var validUsername = validCredentials[i].username;
+				var validPassword = validCredentials[i].password;
 
-      // Define the valid username and password combinations
-      var validCredentials = [
-        { username: "admin", password: "Web&CEO@1234" },
-        { username: "user1", password: "111" },
-        { username: "user2", password: "222" },
-        // Add more combinations here...
-      ];
+				if (username === validUsername && password === validPassword) {
+					displaySuccessPopup();
+					return;
+				}
 
-      var isUsernameValid = false;
-      var isPasswordValid = false;
+				if (username === validUsername) {
+					isUsernameValid = true;
+				}
 
-      // Check if the entered credentials match any valid combination
-      for (var i = 0; i < validCredentials.length; i++) {
-        var validUsername = validCredentials[i].username;
-        var validPassword = validCredentials[i].password;
+				if (password === validPassword) {
+					isPasswordValid = true;
+				}
+			}
 
-        if (username === validUsername && password === validPassword) {
-          displaySuccessPopup();
-          return;
-        }
-
-        if (username === validUsername) {
-          isUsernameValid = true;
-        }
-
-        if (password === validPassword) {
-          isPasswordValid = true;
-        }
-      }
-
-      if (!isUsernameValid && !isPasswordValid) {
-        Swal.fire({
-          title: "You don't have an account on our website!",
-          text: "The email address or mobile number you entered isn't connected to an account.",
-          icon: "error",
-          confirmButtonText: "OK"
-        });
-      } else if (!isUsernameValid) {
-        Swal.fire({
-          title: "Invalid Username",
-          text: "The username that you've entered is incorrect.",
-          icon: "error",
-          confirmButtonText: "OK"
-        });
-      } else {
-        Swal.fire({
-          title: "Invalid Password",
-          text: "The password that you've entered is incorrect.",
-          icon: "error",
-          confirmButtonText: "OK"
-        });
-      }
-    }
-  </script>
-
-
-
-
-
-
-
-
-
+			if (!isUsernameValid && !isPasswordValid) {
+				Swal.fire({
+					title: "You don't have an account on our website!",
+					text: "The email address or mobile number you entered isn't connected to an account.",
+					icon: "error",
+					confirmButtonText: "OK"
+				});
+			} else if (!isUsernameValid) {
+				Swal.fire({
+					title: "Invalid Username",
+					text: "The username that you've entered is incorrect.",
+					icon: "error",
+					confirmButtonText: "OK"
+				});
+			} else {
+				Swal.fire({
+					title: "Invalid Password",
+					text: "The password that you've entered is incorrect.",
+					icon: "error",
+					confirmButtonText: "OK"
+				});
+			}
+		}
+	</script>
 </head>
 
 <body>
-    
+	<div class="wrapper">
+		<form action="another-page/index.html" method="POST" onsubmit="validateForm(event)">
+			<h1>Login</h1>
 
-<div class="wrapper">
+			<div class="input-box">
+				<input type="text" id="username" name="username" placeholder="Email address or phone number" required>
+				<i class='bx bxs-user'></i>
+			</div>
 
-	<form action="another-page/index.html" method="POST" onsubmit="validateForm(event)">
+			<div class="input-box">
+				<input type="password" id="password" name="password" placeholder="Password" required>
+				<i class='bx bxs-lock-alt'></i>
+			</div>
 
+			<div class="remember-forgot">
+				<a href="forgot-password/index.html" target="_blank">Forgotten password?</a><br>
+				<label>
+					<input type="checkbox" id="showPasswordCheckbox" onchange="togglePasswordVisibility()">
+					<span id="showPasswordLabel">Show Password</span>
+				</label>
+			</div>
 
-		<h1>Login</h1>
+			<button type="submit" class="btn">Login</button>
 
-
-		<div class="input-box">
-			<input type="text" id="username" name="username" placeholder="Email address or phone number" required>
-			<i class='bx bxs-user'></i>
-		</div>
-
-
-		<div class="input-box">
-			<input type="password" id="password" name="password" placeholder="Password" required>
-			<i class='bx bxs-lock-alt' ></i>
-		</div>
-
-
-
-		<div class="remember-forgot">
-			<a href="forgot-password" target="_blank">Forgotten password?</a><br>
-			<label>
-				<input type="checkbox" id="showPasswordCheckbox" onchange="togglePasswordVisibility()">
-				<span id="showPasswordLabel">Show Password</span>
-			</label>
-
-		</div>
-
-
-		<button type="submit" class="btn">Login</button>
-
-
-		<div class="register-link">
-			<p>Don't have an account? <a href="create-account" target="_blank">Register</a></p>
-		</div>
-
-	</form>
-
-</div>
-
-
-
+			<div class="register-link">
+				<p>Don't have an account? <a href="create-account" target="_blank">Register</a></p>
+			</div>
+		</form>
+	</div>
 </body>
+
 </html>
